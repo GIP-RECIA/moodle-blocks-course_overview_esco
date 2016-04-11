@@ -60,7 +60,10 @@ class block_course_overview_esco extends block_base {
         $this->content = new stdClass();
         $this->content->footer = '';
         
-        // Tri des cours et filtrage par rôle
+        // Ajout de jquery pour la fonction de chargement des resumÃ©s et des enseignants
+        $this->page->requires->jquery();
+        
+        // Tri des cours et filtrage par rï¿½le
         ob_start();
 		include_once 'sort_and_filter.php';
         $this->content->text = ob_get_clean();

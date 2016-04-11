@@ -137,7 +137,7 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                     format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 4, 'title');
                     // Fin modification RECIA
             }
-            $html .= $this->output->box('', 'flush');
+           
 
             // Début modification RECIA - Ajout du résumé et des enseignants
             $renderer = new esco_course_renderer($this->page, null);
@@ -200,35 +200,6 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
         }
-        // Début modification RECIA - Javascript pour montrer/cacher le contenu des cours et la liste des enseignants
-        $html .= "<script type=\"text/javascript\">
-        YUI().use('node', function(Y){
-            var handleClickSummary = function(e) {
-                if(e.currentTarget.hasClass('plus')){
-                    e.currentTarget.removeClass('plus').addClass('minus');
-                    e.currentTarget.ancestor('.coursebox').one('.summary').addClass('unfolded').removeClass('folded');
-                } else {
-                    e.currentTarget.removeClass('minus').addClass('plus');
-                    e.currentTarget.ancestor('.coursebox').one('.summary').addClass('folded').removeClass('unfolded');
-                }
-            };
-            Y.on('click', handleClickSummary, '.block_course_overview_esco .summary_reply.fold_reply');
-
-            
-            var handleClickTeachers = function(e) {
-                if(e.currentTarget.hasClass('plus')){
-                    e.currentTarget.removeClass('plus').addClass('minus');
-                    e.currentTarget.ancestor('.coursebox').one('.teachers').addClass('unfolded').removeClass('folded');
-                } else {
-                    e.currentTarget.removeClass('minus').addClass('plus');
-                    e.currentTarget.ancestor('.coursebox').one('.teachers').addClass('folded').removeClass('unfolded');
-                }
-            };
-            Y.on('click', handleClickTeachers, '.block_course_overview_esco .teachers_reply.fold_reply');
-        });
-        </script>";
-        // Fin modification RECIA
-        // Wrap course list in a div and return.
         return html_writer::tag('div', $html, array('class' => 'course_list_esco'));
     }
 

@@ -144,9 +144,7 @@ div.summary_reply.fold_reply {
     padding: 3px 15px;
     display: block;
 }
-
-@media (max-width: 800px) {
-    .block_course_overview_esco div.summary_reply.fold_reply.plus .block-hider-hide{
+.block_course_overview_esco div.summary_reply.fold_reply.plus .block-hider-hide{
         display: none;
     }
     .block_course_overview_esco div.summary_reply.fold_reply.plus .block-hider-show{
@@ -180,5 +178,41 @@ div.summary_reply.fold_reply {
     .block_course_overview_esco .content {
         margin: 0px;
     }
-}
+/* Modifi pour afficher le lien pr les resumés qq soit la taille de la fenetre*/
+/* @media (max-width: 800px) { */
+/*     .block_course_overview_esco div.summary_reply.fold_reply.plus .block-hider-hide{ */
+/*         display: none; */
+/*     } */
+/*     .block_course_overview_esco div.summary_reply.fold_reply.plus .block-hider-show{ */
+/*         background-image: url([[pix:t/collapsed]]); */
+/*         background-position: 0 4px; */
+/*         background-repeat: no-repeat; */
+/*         padding-left: 21px; */
+/*     } */
+/*     .block_course_overview_esco div.summary_reply.fold_reply.minus .block-hider-show{ */
+/*         display: none; */
+/*     } */
+/*     .block_course_overview_esco div.summary_reply.fold_reply.minus .block-hider-hide{ */
+/*         background-image: url([[pix:t/expanded]]); */
+/*         background-position: 0 4px; */
+/*         background-repeat: no-repeat; */
+/*         padding-left: 21px; */
+/*     } */
+/*     .block_course_overview_esco div.summary.folded { */
+/*         display: none; */
+/*     } */
+/*     .block_course_overview_esco div.summary.unfolded{ */
+/*         display: block; */
+/*     } */
+/*     .block_course_overview_esco div.summary_reply.fold_reply { */
+/*         padding: 3px 15px; */
+/*         display: block; */
+/*     } */
+/*     .block_course_overview_esco .coursebox .content { */
+/*         padding: 0px; */
+/*     } */
+/*     .block_course_overview_esco .content { */
+/*         margin: 0px; */
+/*     } */
+/* } */
 /*Fin modification RECIA */

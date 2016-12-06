@@ -41,6 +41,7 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
 // Modif RECIA-CD - 20160201 => pour affichage des liens dans nouvel onglet avec la WebProxyPortlet
     //public function course_overview_esco($courses, $overviews) {
     public function course_overview_esco($courses, $overviews , $is_WPPortlet = false) {
+    	$myIterator = 0;
         $html = '';
         $config = get_config('block_course_overview_esco');
         // Début modification RECIA
@@ -94,6 +95,7 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                 continue;
             }
             $html .= $this->output->box_start('coursebox', "course-{$course->id}");
+          
             $html .= html_writer::start_tag('div', array('class' => 'course_title'));
             // If user is editing, then add move icons.
             if ($userediting && !$ismovingcourse) {
@@ -106,18 +108,15 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'move'));
 
             }
-
             // On ajoute des champs cachés pour pouvoir trier les cours et les filtrer par rôle
             $html .= html_writer::tag('input', '', array('type' => 'hidden', 'value' => $course->roles_esco));
             $html .= html_writer::tag('input', '', array('type' => 'hidden', 'value' => $course->timecreated));
-            
             // No need to pass title through s() here as it will be done automatically by html_writer.
-            
             $attributes = array('title' => $course->fullname);
 // Modif RECIA-CD - 20160201 => pour affichage des liens dans nouvel onglet avec la WebProxyPortlet
 	    if ($is_WPPortlet) {
-		$attributes['target'] = '_blank';
-	    }
+			$attributes['target'] = '_blank';
+	   	}
             if ($course->id > 0) {
                 if (empty($course->visible)) {
                     $attributes['class'] = 'dimmed';
@@ -137,24 +136,19 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                     format_string($course->shortname, true), $attributes) . ' (' . format_string($course->hostname) . ')', 4, 'title');
                     // Fin modification RECIA
             }
-            $html .= $this->output->box('', 'flush');
-
             // Début modification RECIA - Ajout du résumé et des enseignants
             $renderer = new esco_course_renderer($this->page, null);
 // Modif RECIA-CD - 20160201 => pour affichage des liens dans nouvel onglet avec la WebProxyPortlet
             //$html .= $renderer->get_course_content($course);
             $html .= $renderer->get_course_content($course, $is_WPPortlet);
             // Fin modification RECIA
-
             $html .= html_writer::end_tag('div');
-
             if (!empty($config->showchildren) && ($course->id > 0)) {
                 // List children here.
                 if ($children = block_course_overview_esco_get_child_shortnames($course->id)) {
                     $html .= html_writer::tag('span', $children, array('class' => 'coursechildren'));
                 }
             }
-
             // If user is moving courses, then down't show overview.
             if (isset($overviews[$course->id]) && !$ismovingcourse) {
 // Modif RECIA-CD - 20160201 => pour affichage des liens dans nouvel onglet avec la WebProxyPortlet
@@ -162,7 +156,7 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
 // Test temporaire en attendant d'avoir une liste correcte des nouvelles activités dans la WPPortlet :
 	        if (!$is_WPPortlet) {
                 $html .= $this->activity_display($course->id, $overviews[$course->id], $is_WPPortlet);
-		}
+				}
             }
 
             if ($config->showcategories != BLOCKS_COURSE_OVERVIEW_ESCO_SHOWCATEGORIES_NONE) {
@@ -200,35 +194,6 @@ class block_course_overview_esco_renderer extends plugin_renderer_base {
                 $html .= html_writer::tag('div', $moveurl, array('class' => 'movehere'));
             }
         }
-        // Début modification RECIA - Javascript pour montrer/cacher le contenu des cours et la liste des enseignants
-        $html .= "<script type=\"text/javascript\">
-        YUI().use('node', function(Y){
-            var handleClickSummary = function(e) {
-                if(e.currentTarget.hasClass('plus')){
-                    e.currentTarget.removeClass('plus').addClass('minus');
-                    e.currentTarget.ancestor('.coursebox').one('.summary').addClass('unfolded').removeClass('folded');
-                } else {
-                    e.currentTarget.removeClass('minus').addClass('plus');
-                    e.currentTarget.ancestor('.coursebox').one('.summary').addClass('folded').removeClass('unfolded');
-                }
-            };
-            Y.on('click', handleClickSummary, '.block_course_overview_esco .summary_reply.fold_reply');
-
-            
-            var handleClickTeachers = function(e) {
-                if(e.currentTarget.hasClass('plus')){
-                    e.currentTarget.removeClass('plus').addClass('minus');
-                    e.currentTarget.ancestor('.coursebox').one('.teachers').addClass('unfolded').removeClass('folded');
-                } else {
-                    e.currentTarget.removeClass('minus').addClass('plus');
-                    e.currentTarget.ancestor('.coursebox').one('.teachers').addClass('folded').removeClass('unfolded');
-                }
-            };
-            Y.on('click', handleClickTeachers, '.block_course_overview_esco .teachers_reply.fold_reply');
-        });
-        </script>";
-        // Fin modification RECIA
-        // Wrap course list in a div and return.
         return html_writer::tag('div', $html, array('class' => 'course_list_esco'));
     }
 

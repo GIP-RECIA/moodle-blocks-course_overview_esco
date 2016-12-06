@@ -44,6 +44,7 @@ function block_course_overview_esco_get_overviews($courses) {
         }
         foreach ($batches as $courses) {
             foreach ($modules as $fname) {
+		//error_log("\n Function called : ".$fname." with params courses : ".print_r($courses, true)." with htlmarray ".print_r($htmlarray,true),3,"/tmp/myerrorfile.log");
                 $fname($courses, $htmlarray);
             }
         }

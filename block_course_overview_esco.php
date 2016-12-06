@@ -60,7 +60,10 @@ class block_course_overview_esco extends block_base {
         $this->content = new stdClass();
         $this->content->footer = '';
         
-        // Tri des cours et filtrage par r�le
+        // Ajout de jquery pour la fonction de chargement des resumés et des enseignants
+        $this->page->requires->jquery();
+        
+        // Tri des cours et filtrage par r�le
         ob_start();
 		include_once 'sort_and_filter.php';
         $this->content->text = ob_get_clean();
@@ -76,7 +79,9 @@ class block_course_overview_esco extends block_base {
 
         $showallcourses = ($updatemynumber === self::SHOW_ALL_COURSES);
         list($sortedcourses, $sitecourses, $totalcourses) = block_course_overview_esco_get_sorted_courses($showallcourses);
-        $overviews = block_course_overview_esco_get_overviews($sitecourses);
+//Non utilisé dans cette version, le chargement des nouveautés sur les cours est trop long à s'exécuter - CD 06/12/2016
+        //$overviews = block_course_overview_esco_get_overviews($sitecourses);
+	$overviews = null;
 
         $renderer = $this->page->get_renderer('block_course_overview_esco');
         if (!empty($config->showwelcomearea)) {
@@ -97,7 +102,7 @@ class block_course_overview_esco extends block_base {
             $this->content->text .= $renderer->course_overview_esco($sortedcourses, $overviews);
             $this->content->text .= $renderer->hidden_courses($totalcourses - count($sortedcourses));
         }
-
+       
         return $this->content;
     }
 
